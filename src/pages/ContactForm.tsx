@@ -1,5 +1,11 @@
 import { useState } from "react";
 
+type ContactRequest = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 const ContactForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -54,13 +60,19 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
 
+    const requestBody: ContactRequest = {
+      name,
+      email,
+      message,
+    };
+
     try {
       const response = await fetch(
         "https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/contacts",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, message }),
+          body: JSON.stringify(requestBody),
         },
       );
 
